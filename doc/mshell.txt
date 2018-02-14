@@ -3,24 +3,25 @@ mshell(1)
 
 NAME
 ----
-mshell - Malamute command-line shell
+mshell - Program for Malamute command-line shell
 
 SYNOPSIS
 --------
 ----
-Please add @interface section in ../src/mshell.c.
+Please add '@interface' section in './../src/mshell.c'.
+Please add '@interface' section in './../src/mshell.c'.
 ----
 
 DESCRIPTION
 -----------
 
-Please add @header section in ../src/mshell.c.
+Please add '@header' section in './../src/mshell.c'.
 
-Please add @discuss section in ../src/mshell.c.
+Please add '@discuss' section in './../src/mshell.c'.
 
 EXAMPLE
 -------
 .From mshell_test method
 ----
-Please add @selftest section in ../src/mshell.c.
+Please add '@selftest' section in './../src/mshell.c'.
 ----

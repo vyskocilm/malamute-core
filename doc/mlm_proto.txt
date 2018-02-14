@@ -8,203 +8,183 @@ mlm_proto - Class for The Malamute Protocol
 SYNOPSIS
 --------
 ----
-//  This API is a draft, and may change without notice.
-#ifdef MLM_BUILD_DRAFT_API
-#define MLM_PROTO_SUCCESS 200               // 
-#define MLM_PROTO_FAILED 300                // 
-#define MLM_PROTO_COMMAND_INVALID 500       // 
-#define MLM_PROTO_NOT_IMPLEMENTED 501       // 
-#define MLM_PROTO_INTERNAL_ERROR 502        // 
-#define MLM_PROTO_CONNECTION_OPEN 1         // 
-#define MLM_PROTO_CONNECTION_PING 2         // 
-#define MLM_PROTO_CONNECTION_PONG 3         // 
-#define MLM_PROTO_CONNECTION_CLOSE 4        // 
-#define MLM_PROTO_STREAM_WRITE 5            // 
-#define MLM_PROTO_STREAM_READ 6             // 
-#define MLM_PROTO_STREAM_SEND 7             // 
-#define MLM_PROTO_STREAM_DELIVER 8          // 
-#define MLM_PROTO_MAILBOX_SEND 9            // 
-#define MLM_PROTO_MAILBOX_DELIVER 10        // 
-#define MLM_PROTO_SERVICE_SEND 11           // 
-#define MLM_PROTO_SERVICE_OFFER 12          // 
-#define MLM_PROTO_SERVICE_DELIVER 13        // 
-#define MLM_PROTO_OK 14                     // 
-#define MLM_PROTO_ERROR 15                  // 
-#define MLM_PROTO_CREDIT 16                 // 
-#define MLM_PROTO_CONFIRM 17                // 
+//  This is a stable class, and may not change except for emergencies. It
+//  is provided in stable builds.
+#define MLM_PROTO_SUCCESS 200               //
+#define MLM_PROTO_FAILED 300                //
+#define MLM_PROTO_COMMAND_INVALID 500       //
+#define MLM_PROTO_NOT_IMPLEMENTED 501       //
+#define MLM_PROTO_INTERNAL_ERROR 502        //
+#define MLM_PROTO_CONNECTION_OPEN 1         //
+#define MLM_PROTO_CONNECTION_PING 2         //
+#define MLM_PROTO_CONNECTION_PONG 3         //
+#define MLM_PROTO_CONNECTION_CLOSE 4        //
+#define MLM_PROTO_STREAM_WRITE 5            //
+#define MLM_PROTO_STREAM_READ 6             //
+#define MLM_PROTO_STREAM_SEND 7             //
+#define MLM_PROTO_STREAM_DELIVER 8          //
+#define MLM_PROTO_MAILBOX_SEND 9            //
+#define MLM_PROTO_MAILBOX_DELIVER 10        //
+#define MLM_PROTO_SERVICE_SEND 11           //
+#define MLM_PROTO_SERVICE_OFFER 12          //
+#define MLM_PROTO_SERVICE_DELIVER 13        //
+#define MLM_PROTO_OK 14                     //
+#define MLM_PROTO_ERROR 15                  //
+#define MLM_PROTO_CREDIT 16                 //
+#define MLM_PROTO_CONFIRM 17                //
+#define MLM_PROTO_STREAM_CANCEL 18          //
 
-//  *** Draft method, for development use, may change without warning ***
 //  Create a new empty mlm_proto
 MLM_EXPORT mlm_proto_t *
     mlm_proto_new (void);
 
-//  *** Draft method, for development use, may change without warning ***
+//  Create a new mlm_proto from zpl/zconfig_t *
+MLM_EXPORT mlm_proto_t *
+    mlm_proto_new_zpl (zconfig_t *config);
+
 //  Destroy a mlm_proto instance
 MLM_EXPORT void
     mlm_proto_destroy (mlm_proto_t **self_p);
 
-//  *** Draft method, for development use, may change without warning ***
+//  Create a deep copy of a mlm_proto instance
+//  Caller owns return value and must destroy it when done.
+MLM_EXPORT mlm_proto_t *
+    mlm_proto_dup (mlm_proto_t *self);
+
 //  Receive a mlm_proto from the socket. Returns 0 if OK, -1 if
-//  there was an error. Blocks if there is no message waiting. 
+//  there was an error. Blocks if there is no message waiting.
 MLM_EXPORT int
     mlm_proto_recv (mlm_proto_t *self, zsock_t *input);
 
-//  *** Draft method, for development use, may change without warning ***
 //  Send the mlm_proto to the output socket, does not destroy it
 MLM_EXPORT int
     mlm_proto_send (mlm_proto_t *self, zsock_t *output);
 
-//  *** Draft method, for development use, may change without warning ***
 //  Print contents of message to stdout
 MLM_EXPORT void
     mlm_proto_print (mlm_proto_t *self);
 
-//  *** Draft method, for development use, may change without warning ***
+//  Export class as zconfig_t*. Caller is responsibe for destroying the instance
+//  Caller owns return value and must destroy it when done.
+MLM_EXPORT zconfig_t *
+    mlm_proto_zpl (mlm_proto_t *self, zconfig_t *parent);
+
 //  Get the message routing id, as a frame
 MLM_EXPORT zframe_t *
     mlm_proto_routing_id (mlm_proto_t *self);
 
-//  *** Draft method, for development use, may change without warning ***
 //  Set the message routing id from a frame
 MLM_EXPORT void
     mlm_proto_set_routing_id (mlm_proto_t *self, zframe_t *routing_id);
 
-//  *** Draft method, for development use, may change without warning ***
 //  Get the mlm_proto message id
 MLM_EXPORT int
     mlm_proto_id (mlm_proto_t *self);
 
-//  *** Draft method, for development use, may change without warning ***
 //  Set the mlm_proto message id
 MLM_EXPORT void
     mlm_proto_set_id (mlm_proto_t *self, int id);
 
-//  *** Draft method, for development use, may change without warning ***
 //  Get the mlm_proto message id as printable text
 MLM_EXPORT const char *
     mlm_proto_command (mlm_proto_t *self);
 
-//  *** Draft method, for development use, may change without warning ***
 //  Get the address field
 MLM_EXPORT const char *
     mlm_proto_address (mlm_proto_t *self);
 
-//  *** Draft method, for development use, may change without warning ***
 //  Set the address field
 MLM_EXPORT void
     mlm_proto_set_address (mlm_proto_t *self, const char *address);
 
-//  *** Draft method, for development use, may change without warning ***
 //  Get the stream field
 MLM_EXPORT const char *
     mlm_proto_stream (mlm_proto_t *self);
 
-//  *** Draft method, for development use, may change without warning ***
 //  Set the stream field
 MLM_EXPORT void
     mlm_proto_set_stream (mlm_proto_t *self, const char *stream);
 
-//  *** Draft method, for development use, may change without warning ***
 //  Get the pattern field
 MLM_EXPORT const char *
     mlm_proto_pattern (mlm_proto_t *self);
 
-//  *** Draft method, for development use, may change without warning ***
 //  Set the pattern field
 MLM_EXPORT void
     mlm_proto_set_pattern (mlm_proto_t *self, const char *pattern);
 
-//  *** Draft method, for development use, may change without warning ***
 //  Get the subject field
 MLM_EXPORT const char *
     mlm_proto_subject (mlm_proto_t *self);
 
-//  *** Draft method, for development use, may change without warning ***
 //  Set the subject field
 MLM_EXPORT void
     mlm_proto_set_subject (mlm_proto_t *self, const char *subject);
 
-//  *** Draft method, for development use, may change without warning ***
 //  Get a copy of the content field
 MLM_EXPORT zmsg_t *
     mlm_proto_content (mlm_proto_t *self);
 
-//  *** Draft method, for development use, may change without warning ***
 //  Get the content field and transfer ownership to caller
 MLM_EXPORT zmsg_t *
     mlm_proto_get_content (mlm_proto_t *self);
 
-//  *** Draft method, for development use, may change without warning ***
-//  
+//
 MLM_EXPORT void
     mlm_proto_set_content (mlm_proto_t *self, zmsg_t **content_p);
 
-//  *** Draft method, for development use, may change without warning ***
 //  Get the sender field
 MLM_EXPORT const char *
     mlm_proto_sender (mlm_proto_t *self);
 
-//  *** Draft method, for development use, may change without warning ***
 //  Set the sender field
 MLM_EXPORT void
     mlm_proto_set_sender (mlm_proto_t *self, const char *sender);
 
-//  *** Draft method, for development use, may change without warning ***
 //  Get the tracker field
 MLM_EXPORT const char *
     mlm_proto_tracker (mlm_proto_t *self);
 
-//  *** Draft method, for development use, may change without warning ***
 //  Set the tracker field
 MLM_EXPORT void
     mlm_proto_set_tracker (mlm_proto_t *self, const char *tracker);
 
-//  *** Draft method, for development use, may change without warning ***
 //  Get the timeout field
 MLM_EXPORT uint32_t
     mlm_proto_timeout (mlm_proto_t *self);
 
-//  *** Draft method, for development use, may change without warning ***
 //  Set the timeout field
 MLM_EXPORT void
     mlm_proto_set_timeout (mlm_proto_t *self, uint32_t timeout);
 
-//  *** Draft method, for development use, may change without warning ***
 //  Get the status_code field
 MLM_EXPORT uint16_t
     mlm_proto_status_code (mlm_proto_t *self);
 
-//  *** Draft method, for development use, may change without warning ***
 //  Set the status_code field
 MLM_EXPORT void
     mlm_proto_set_status_code (mlm_proto_t *self, uint16_t status_code);
 
-//  *** Draft method, for development use, may change without warning ***
 //  Get the status_reason field
 MLM_EXPORT const char *
     mlm_proto_status_reason (mlm_proto_t *self);
 
-//  *** Draft method, for development use, may change without warning ***
 //  Set the status_reason field
 MLM_EXPORT void
     mlm_proto_set_status_reason (mlm_proto_t *self, const char *status_reason);
 
-//  *** Draft method, for development use, may change without warning ***
 //  Get the amount field
 MLM_EXPORT uint16_t
     mlm_proto_amount (mlm_proto_t *self);
 
-//  *** Draft method, for development use, may change without warning ***
 //  Set the amount field
 MLM_EXPORT void
     mlm_proto_set_amount (mlm_proto_t *self, uint16_t amount);
 
-//  *** Draft method, for development use, may change without warning ***
 //  Self test of this class.
 MLM_EXPORT void
     mlm_proto_test (bool verbose);
 
-#endif // MLM_BUILD_DRAFT_API
 Please add '@interface' section in './../src/mlm_proto.c'.
 ----
 
@@ -220,6 +200,7 @@ EXAMPLE
 .From mlm_proto_test method
 ----
 //  Simple create/destroy test
+zconfig_t *config;
 mlm_proto_t *self = mlm_proto_new ();
 assert (self);
 mlm_proto_destroy (&self);
@@ -242,70 +223,166 @@ self = mlm_proto_new ();
 mlm_proto_set_id (self, MLM_PROTO_CONNECTION_OPEN);
 
 mlm_proto_set_address (self, "Life is short but Now lasts for ever");
+// convert to zpl
+config = mlm_proto_zpl (self, NULL);
+if (verbose)
+    zconfig_print (config);
 //  Send twice
 mlm_proto_send (self, output);
 mlm_proto_send (self, output);
 
-for (instance = 0; instance < 2; instance++) {
-    mlm_proto_recv (self, input);
-    assert (mlm_proto_routing_id (self));
+for (instance = 0; instance < 3; instance++) {
+    mlm_proto_t *self_temp = self;
+    if (instance < 2)
+        mlm_proto_recv (self, input);
+    else {
+        self = mlm_proto_new_zpl (config);
+        assert (self);
+        zconfig_destroy (&config);
+    }
+    if (instance < 2)
+        assert (mlm_proto_routing_id (self));
     assert (streq (mlm_proto_address (self), "Life is short but Now lasts for ever"));
+    if (instance == 2) {
+        mlm_proto_destroy (&self);
+        self = self_temp;
+    }
 }
 mlm_proto_set_id (self, MLM_PROTO_CONNECTION_PING);
 
+// convert to zpl
+config = mlm_proto_zpl (self, NULL);
+if (verbose)
+    zconfig_print (config);
 //  Send twice
 mlm_proto_send (self, output);
 mlm_proto_send (self, output);
 
-for (instance = 0; instance < 2; instance++) {
-    mlm_proto_recv (self, input);
-    assert (mlm_proto_routing_id (self));
+for (instance = 0; instance < 3; instance++) {
+    mlm_proto_t *self_temp = self;
+    if (instance < 2)
+        mlm_proto_recv (self, input);
+    else {
+        self = mlm_proto_new_zpl (config);
+        assert (self);
+        zconfig_destroy (&config);
+    }
+    if (instance < 2)
+        assert (mlm_proto_routing_id (self));
+    if (instance == 2) {
+        mlm_proto_destroy (&self);
+        self = self_temp;
+    }
 }
 mlm_proto_set_id (self, MLM_PROTO_CONNECTION_PONG);
 
+// convert to zpl
+config = mlm_proto_zpl (self, NULL);
+if (verbose)
+    zconfig_print (config);
 //  Send twice
 mlm_proto_send (self, output);
 mlm_proto_send (self, output);
 
-for (instance = 0; instance < 2; instance++) {
-    mlm_proto_recv (self, input);
-    assert (mlm_proto_routing_id (self));
+for (instance = 0; instance < 3; instance++) {
+    mlm_proto_t *self_temp = self;
+    if (instance < 2)
+        mlm_proto_recv (self, input);
+    else {
+        self = mlm_proto_new_zpl (config);
+        assert (self);
+        zconfig_destroy (&config);
+    }
+    if (instance < 2)
+        assert (mlm_proto_routing_id (self));
+    if (instance == 2) {
+        mlm_proto_destroy (&self);
+        self = self_temp;
+    }
 }
 mlm_proto_set_id (self, MLM_PROTO_CONNECTION_CLOSE);
 
+// convert to zpl
+config = mlm_proto_zpl (self, NULL);
+if (verbose)
+    zconfig_print (config);
 //  Send twice
 mlm_proto_send (self, output);
 mlm_proto_send (self, output);
 
-for (instance = 0; instance < 2; instance++) {
-    mlm_proto_recv (self, input);
-    assert (mlm_proto_routing_id (self));
+for (instance = 0; instance < 3; instance++) {
+    mlm_proto_t *self_temp = self;
+    if (instance < 2)
+        mlm_proto_recv (self, input);
+    else {
+        self = mlm_proto_new_zpl (config);
+        assert (self);
+        zconfig_destroy (&config);
+    }
+    if (instance < 2)
+        assert (mlm_proto_routing_id (self));
+    if (instance == 2) {
+        mlm_proto_destroy (&self);
+        self = self_temp;
+    }
 }
 mlm_proto_set_id (self, MLM_PROTO_STREAM_WRITE);
 
 mlm_proto_set_stream (self, "Life is short but Now lasts for ever");
+// convert to zpl
+config = mlm_proto_zpl (self, NULL);
+if (verbose)
+    zconfig_print (config);
 //  Send twice
 mlm_proto_send (self, output);
 mlm_proto_send (self, output);
 
-for (instance = 0; instance < 2; instance++) {
-    mlm_proto_recv (self, input);
-    assert (mlm_proto_routing_id (self));
+for (instance = 0; instance < 3; instance++) {
+    mlm_proto_t *self_temp = self;
+    if (instance < 2)
+        mlm_proto_recv (self, input);
+    else {
+        self = mlm_proto_new_zpl (config);
+        assert (self);
+        zconfig_destroy (&config);
+    }
+    if (instance < 2)
+        assert (mlm_proto_routing_id (self));
     assert (streq (mlm_proto_stream (self), "Life is short but Now lasts for ever"));
+    if (instance == 2) {
+        mlm_proto_destroy (&self);
+        self = self_temp;
+    }
 }
 mlm_proto_set_id (self, MLM_PROTO_STREAM_READ);
 
 mlm_proto_set_stream (self, "Life is short but Now lasts for ever");
 mlm_proto_set_pattern (self, "Life is short but Now lasts for ever");
+// convert to zpl
+config = mlm_proto_zpl (self, NULL);
+if (verbose)
+    zconfig_print (config);
 //  Send twice
 mlm_proto_send (self, output);
 mlm_proto_send (self, output);
 
-for (instance = 0; instance < 2; instance++) {
-    mlm_proto_recv (self, input);
-    assert (mlm_proto_routing_id (self));
+for (instance = 0; instance < 3; instance++) {
+    mlm_proto_t *self_temp = self;
+    if (instance < 2)
+        mlm_proto_recv (self, input);
+    else {
+        self = mlm_proto_new_zpl (config);
+        assert (self);
+        zconfig_destroy (&config);
+    }
+    if (instance < 2)
+        assert (mlm_proto_routing_id (self));
     assert (streq (mlm_proto_stream (self), "Life is short but Now lasts for ever"));
     assert (streq (mlm_proto_pattern (self), "Life is short but Now lasts for ever"));
+    if (instance == 2) {
+        mlm_proto_destroy (&self);
+        self = self_temp;
+    }
 }
 mlm_proto_set_id (self, MLM_PROTO_STREAM_SEND);
 
@@ -313,20 +390,36 @@ mlm_proto_set_subject (self, "Life is short but Now lasts for ever");
 zmsg_t *stream_send_content = zmsg_new ();
 mlm_proto_set_content (self, &stream_send_content);
 zmsg_addstr (mlm_proto_content (self), "Captcha Diem");
+// convert to zpl
+config = mlm_proto_zpl (self, NULL);
+if (verbose)
+    zconfig_print (config);
 //  Send twice
 mlm_proto_send (self, output);
 mlm_proto_send (self, output);
 
-for (instance = 0; instance < 2; instance++) {
-    mlm_proto_recv (self, input);
-    assert (mlm_proto_routing_id (self));
+for (instance = 0; instance < 3; instance++) {
+    mlm_proto_t *self_temp = self;
+    if (instance < 2)
+        mlm_proto_recv (self, input);
+    else {
+        self = mlm_proto_new_zpl (config);
+        assert (self);
+        zconfig_destroy (&config);
+    }
+    if (instance < 2)
+        assert (mlm_proto_routing_id (self));
     assert (streq (mlm_proto_subject (self), "Life is short but Now lasts for ever"));
     assert (zmsg_size (mlm_proto_content (self)) == 1);
     char *content = zmsg_popstr (mlm_proto_content (self));
     assert (streq (content, "Captcha Diem"));
     zstr_free (&content);
-    if (instance == 1)
+    if (instance == 2)
         zmsg_destroy (&stream_send_content);
+    if (instance == 2) {
+        mlm_proto_destroy (&self);
+        self = self_temp;
+    }
 }
 mlm_proto_set_id (self, MLM_PROTO_STREAM_DELIVER);
 
@@ -336,13 +429,25 @@ mlm_proto_set_subject (self, "Life is short but Now lasts for ever");
 zmsg_t *stream_deliver_content = zmsg_new ();
 mlm_proto_set_content (self, &stream_deliver_content);
 zmsg_addstr (mlm_proto_content (self), "Captcha Diem");
+// convert to zpl
+config = mlm_proto_zpl (self, NULL);
+if (verbose)
+    zconfig_print (config);
 //  Send twice
 mlm_proto_send (self, output);
 mlm_proto_send (self, output);
 
-for (instance = 0; instance < 2; instance++) {
-    mlm_proto_recv (self, input);
-    assert (mlm_proto_routing_id (self));
+for (instance = 0; instance < 3; instance++) {
+    mlm_proto_t *self_temp = self;
+    if (instance < 2)
+        mlm_proto_recv (self, input);
+    else {
+        self = mlm_proto_new_zpl (config);
+        assert (self);
+        zconfig_destroy (&config);
+    }
+    if (instance < 2)
+        assert (mlm_proto_routing_id (self));
     assert (streq (mlm_proto_address (self), "Life is short but Now lasts for ever"));
     assert (streq (mlm_proto_sender (self), "Life is short but Now lasts for ever"));
     assert (streq (mlm_proto_subject (self), "Life is short but Now lasts for ever"));
@@ -350,8 +455,12 @@ for (instance = 0; instance < 2; instance++) {
     char *content = zmsg_popstr (mlm_proto_content (self));
     assert (streq (content, "Captcha Diem"));
     zstr_free (&content);
-    if (instance == 1)
+    if (instance == 2)
         zmsg_destroy (&stream_deliver_content);
+    if (instance == 2) {
+        mlm_proto_destroy (&self);
+        self = self_temp;
+    }
 }
 mlm_proto_set_id (self, MLM_PROTO_MAILBOX_SEND);
 
@@ -362,13 +471,25 @@ mlm_proto_set_timeout (self, 123);
 zmsg_t *mailbox_send_content = zmsg_new ();
 mlm_proto_set_content (self, &mailbox_send_content);
 zmsg_addstr (mlm_proto_content (self), "Captcha Diem");
+// convert to zpl
+config = mlm_proto_zpl (self, NULL);
+if (verbose)
+    zconfig_print (config);
 //  Send twice
 mlm_proto_send (self, output);
 mlm_proto_send (self, output);
 
-for (instance = 0; instance < 2; instance++) {
-    mlm_proto_recv (self, input);
-    assert (mlm_proto_routing_id (self));
+for (instance = 0; instance < 3; instance++) {
+    mlm_proto_t *self_temp = self;
+    if (instance < 2)
+        mlm_proto_recv (self, input);
+    else {
+        self = mlm_proto_new_zpl (config);
+        assert (self);
+        zconfig_destroy (&config);
+    }
+    if (instance < 2)
+        assert (mlm_proto_routing_id (self));
     assert (streq (mlm_proto_address (self), "Life is short but Now lasts for ever"));
     assert (streq (mlm_proto_subject (self), "Life is short but Now lasts for ever"));
     assert (streq (mlm_proto_tracker (self), "Life is short but Now lasts for ever"));
@@ -377,8 +498,12 @@ for (instance = 0; instance < 2; instance++) {
     char *content = zmsg_popstr (mlm_proto_content (self));
     assert (streq (content, "Captcha Diem"));
     zstr_free (&content);
-    if (instance == 1)
+    if (instance == 2)
         zmsg_destroy (&mailbox_send_content);
+    if (instance == 2) {
+        mlm_proto_destroy (&self);
+        self = self_temp;
+    }
 }
 mlm_proto_set_id (self, MLM_PROTO_MAILBOX_DELIVER);
 
@@ -389,13 +514,25 @@ mlm_proto_set_tracker (self, "Life is short but Now lasts for ever");
 zmsg_t *mailbox_deliver_content = zmsg_new ();
 mlm_proto_set_content (self, &mailbox_deliver_content);
 zmsg_addstr (mlm_proto_content (self), "Captcha Diem");
+// convert to zpl
+config = mlm_proto_zpl (self, NULL);
+if (verbose)
+    zconfig_print (config);
 //  Send twice
 mlm_proto_send (self, output);
 mlm_proto_send (self, output);
 
-for (instance = 0; instance < 2; instance++) {
-    mlm_proto_recv (self, input);
-    assert (mlm_proto_routing_id (self));
+for (instance = 0; instance < 3; instance++) {
+    mlm_proto_t *self_temp = self;
+    if (instance < 2)
+        mlm_proto_recv (self, input);
+    else {
+        self = mlm_proto_new_zpl (config);
+        assert (self);
+        zconfig_destroy (&config);
+    }
+    if (instance < 2)
+        assert (mlm_proto_routing_id (self));
     assert (streq (mlm_proto_sender (self), "Life is short but Now lasts for ever"));
     assert (streq (mlm_proto_address (self), "Life is short but Now lasts for ever"));
     assert (streq (mlm_proto_subject (self), "Life is short but Now lasts for ever"));
@@ -404,8 +541,12 @@ for (instance = 0; instance < 2; instance++) {
     char *content = zmsg_popstr (mlm_proto_content (self));
     assert (streq (content, "Captcha Diem"));
     zstr_free (&content);
-    if (instance == 1)
+    if (instance == 2)
         zmsg_destroy (&mailbox_deliver_content);
+    if (instance == 2) {
+        mlm_proto_destroy (&self);
+        self = self_temp;
+    }
 }
 mlm_proto_set_id (self, MLM_PROTO_SERVICE_SEND);
 
@@ -416,13 +557,25 @@ mlm_proto_set_timeout (self, 123);
 zmsg_t *service_send_content = zmsg_new ();
 mlm_proto_set_content (self, &service_send_content);
 zmsg_addstr (mlm_proto_content (self), "Captcha Diem");
+// convert to zpl
+config = mlm_proto_zpl (self, NULL);
+if (verbose)
+    zconfig_print (config);
 //  Send twice
 mlm_proto_send (self, output);
 mlm_proto_send (self, output);
 
-for (instance = 0; instance < 2; instance++) {
-    mlm_proto_recv (self, input);
-    assert (mlm_proto_routing_id (self));
+for (instance = 0; instance < 3; instance++) {
+    mlm_proto_t *self_temp = self;
+    if (instance < 2)
+        mlm_proto_recv (self, input);
+    else {
+        self = mlm_proto_new_zpl (config);
+        assert (self);
+        zconfig_destroy (&config);
+    }
+    if (instance < 2)
+        assert (mlm_proto_routing_id (self));
     assert (streq (mlm_proto_address (self), "Life is short but Now lasts for ever"));
     assert (streq (mlm_proto_subject (self), "Life is short but Now lasts for ever"));
     assert (streq (mlm_proto_tracker (self), "Life is short but Now lasts for ever"));
@@ -431,22 +584,42 @@ for (instance = 0; instance < 2; instance++) {
     char *content = zmsg_popstr (mlm_proto_content (self));
     assert (streq (content, "Captcha Diem"));
     zstr_free (&content);
-    if (instance == 1)
+    if (instance == 2)
         zmsg_destroy (&service_send_content);
+    if (instance == 2) {
+        mlm_proto_destroy (&self);
+        self = self_temp;
+    }
 }
 mlm_proto_set_id (self, MLM_PROTO_SERVICE_OFFER);
 
 mlm_proto_set_address (self, "Life is short but Now lasts for ever");
 mlm_proto_set_pattern (self, "Life is short but Now lasts for ever");
+// convert to zpl
+config = mlm_proto_zpl (self, NULL);
+if (verbose)
+    zconfig_print (config);
 //  Send twice
 mlm_proto_send (self, output);
 mlm_proto_send (self, output);
 
-for (instance = 0; instance < 2; instance++) {
-    mlm_proto_recv (self, input);
-    assert (mlm_proto_routing_id (self));
+for (instance = 0; instance < 3; instance++) {
+    mlm_proto_t *self_temp = self;
+    if (instance < 2)
+        mlm_proto_recv (self, input);
+    else {
+        self = mlm_proto_new_zpl (config);
+        assert (self);
+        zconfig_destroy (&config);
+    }
+    if (instance < 2)
+        assert (mlm_proto_routing_id (self));
     assert (streq (mlm_proto_address (self), "Life is short but Now lasts for ever"));
     assert (streq (mlm_proto_pattern (self), "Life is short but Now lasts for ever"));
+    if (instance == 2) {
+        mlm_proto_destroy (&self);
+        self = self_temp;
+    }
 }
 mlm_proto_set_id (self, MLM_PROTO_SERVICE_DELIVER);
 
@@ -457,13 +630,25 @@ mlm_proto_set_tracker (self, "Life is short but Now lasts for ever");
 zmsg_t *service_deliver_content = zmsg_new ();
 mlm_proto_set_content (self, &service_deliver_content);
 zmsg_addstr (mlm_proto_content (self), "Captcha Diem");
+// convert to zpl
+config = mlm_proto_zpl (self, NULL);
+if (verbose)
+    zconfig_print (config);
 //  Send twice
 mlm_proto_send (self, output);
 mlm_proto_send (self, output);
 
-for (instance = 0; instance < 2; instance++) {
-    mlm_proto_recv (self, input);
-    assert (mlm_proto_routing_id (self));
+for (instance = 0; instance < 3; instance++) {
+    mlm_proto_t *self_temp = self;
+    if (instance < 2)
+        mlm_proto_recv (self, input);
+    else {
+        self = mlm_proto_new_zpl (config);
+        assert (self);
+        zconfig_destroy (&config);
+    }
+    if (instance < 2)
+        assert (mlm_proto_routing_id (self));
     assert (streq (mlm_proto_sender (self), "Life is short but Now lasts for ever"));
     assert (streq (mlm_proto_address (self), "Life is short but Now lasts for ever"));
     assert (streq (mlm_proto_subject (self), "Life is short but Now lasts for ever"));
@@ -472,67 +657,166 @@ for (instance = 0; instance < 2; instance++) {
     char *content = zmsg_popstr (mlm_proto_content (self));
     assert (streq (content, "Captcha Diem"));
     zstr_free (&content);
-    if (instance == 1)
+    if (instance == 2)
         zmsg_destroy (&service_deliver_content);
+    if (instance == 2) {
+        mlm_proto_destroy (&self);
+        self = self_temp;
+    }
 }
 mlm_proto_set_id (self, MLM_PROTO_OK);
 
 mlm_proto_set_status_code (self, 123);
 mlm_proto_set_status_reason (self, "Life is short but Now lasts for ever");
+// convert to zpl
+config = mlm_proto_zpl (self, NULL);
+if (verbose)
+    zconfig_print (config);
 //  Send twice
 mlm_proto_send (self, output);
 mlm_proto_send (self, output);
 
-for (instance = 0; instance < 2; instance++) {
-    mlm_proto_recv (self, input);
-    assert (mlm_proto_routing_id (self));
+for (instance = 0; instance < 3; instance++) {
+    mlm_proto_t *self_temp = self;
+    if (instance < 2)
+        mlm_proto_recv (self, input);
+    else {
+        self = mlm_proto_new_zpl (config);
+        assert (self);
+        zconfig_destroy (&config);
+    }
+    if (instance < 2)
+        assert (mlm_proto_routing_id (self));
     assert (mlm_proto_status_code (self) == 123);
     assert (streq (mlm_proto_status_reason (self), "Life is short but Now lasts for ever"));
+    if (instance == 2) {
+        mlm_proto_destroy (&self);
+        self = self_temp;
+    }
 }
 mlm_proto_set_id (self, MLM_PROTO_ERROR);
 
 mlm_proto_set_status_code (self, 123);
 mlm_proto_set_status_reason (self, "Life is short but Now lasts for ever");
+// convert to zpl
+config = mlm_proto_zpl (self, NULL);
+if (verbose)
+    zconfig_print (config);
 //  Send twice
 mlm_proto_send (self, output);
 mlm_proto_send (self, output);
 
-for (instance = 0; instance < 2; instance++) {
-    mlm_proto_recv (self, input);
-    assert (mlm_proto_routing_id (self));
+for (instance = 0; instance < 3; instance++) {
+    mlm_proto_t *self_temp = self;
+    if (instance < 2)
+        mlm_proto_recv (self, input);
+    else {
+        self = mlm_proto_new_zpl (config);
+        assert (self);
+        zconfig_destroy (&config);
+    }
+    if (instance < 2)
+        assert (mlm_proto_routing_id (self));
     assert (mlm_proto_status_code (self) == 123);
     assert (streq (mlm_proto_status_reason (self), "Life is short but Now lasts for ever"));
+    if (instance == 2) {
+        mlm_proto_destroy (&self);
+        self = self_temp;
+    }
 }
 mlm_proto_set_id (self, MLM_PROTO_CREDIT);
 
 mlm_proto_set_amount (self, 123);
+// convert to zpl
+config = mlm_proto_zpl (self, NULL);
+if (verbose)
+    zconfig_print (config);
 //  Send twice
 mlm_proto_send (self, output);
 mlm_proto_send (self, output);
 
-for (instance = 0; instance < 2; instance++) {
-    mlm_proto_recv (self, input);
-    assert (mlm_proto_routing_id (self));
+for (instance = 0; instance < 3; instance++) {
+    mlm_proto_t *self_temp = self;
+    if (instance < 2)
+        mlm_proto_recv (self, input);
+    else {
+        self = mlm_proto_new_zpl (config);
+        assert (self);
+        zconfig_destroy (&config);
+    }
+    if (instance < 2)
+        assert (mlm_proto_routing_id (self));
     assert (mlm_proto_amount (self) == 123);
+    if (instance == 2) {
+        mlm_proto_destroy (&self);
+        self = self_temp;
+    }
 }
 mlm_proto_set_id (self, MLM_PROTO_CONFIRM);
 
 mlm_proto_set_tracker (self, "Life is short but Now lasts for ever");
 mlm_proto_set_status_code (self, 123);
 mlm_proto_set_status_reason (self, "Life is short but Now lasts for ever");
+// convert to zpl
+config = mlm_proto_zpl (self, NULL);
+if (verbose)
+    zconfig_print (config);
 //  Send twice
 mlm_proto_send (self, output);
 mlm_proto_send (self, output);
 
-for (instance = 0; instance < 2; instance++) {
-    mlm_proto_recv (self, input);
-    assert (mlm_proto_routing_id (self));
+for (instance = 0; instance < 3; instance++) {
+    mlm_proto_t *self_temp = self;
+    if (instance < 2)
+        mlm_proto_recv (self, input);
+    else {
+        self = mlm_proto_new_zpl (config);
+        assert (self);
+        zconfig_destroy (&config);
+    }
+    if (instance < 2)
+        assert (mlm_proto_routing_id (self));
     assert (streq (mlm_proto_tracker (self), "Life is short but Now lasts for ever"));
     assert (mlm_proto_status_code (self) == 123);
     assert (streq (mlm_proto_status_reason (self), "Life is short but Now lasts for ever"));
+    if (instance == 2) {
+        mlm_proto_destroy (&self);
+        self = self_temp;
+    }
+}
+mlm_proto_set_id (self, MLM_PROTO_STREAM_CANCEL);
+
+mlm_proto_set_stream (self, "Life is short but Now lasts for ever");
+// convert to zpl
+config = mlm_proto_zpl (self, NULL);
+if (verbose)
+    zconfig_print (config);
+//  Send twice
+mlm_proto_send (self, output);
+mlm_proto_send (self, output);
+
+for (instance = 0; instance < 3; instance++) {
+    mlm_proto_t *self_temp = self;
+    if (instance < 2)
+        mlm_proto_recv (self, input);
+    else {
+        self = mlm_proto_new_zpl (config);
+        assert (self);
+        zconfig_destroy (&config);
+    }
+    if (instance < 2)
+        assert (mlm_proto_routing_id (self));
+    assert (streq (mlm_proto_stream (self), "Life is short but Now lasts for ever"));
+    if (instance == 2) {
+        mlm_proto_destroy (&self);
+        self = self_temp;
+    }
 }
 
 mlm_proto_destroy (&self);
 zsock_destroy (&input);
 zsock_destroy (&output);
+#if defined (__WINDOWS__)
+zsys_shutdown();
+#endif
 ----
